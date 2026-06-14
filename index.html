@@ -1,0 +1,470 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+body{font-family:var(--font-sans)}
+.ad{width:100%;height:76px;background:var(--color-background-secondary);border:0.5px dashed var(--color-border-secondary);border-radius:var(--border-radius-md);display:flex;align-items:center;justify-content:center;color:var(--color-text-tertiary);font-size:12px;margin-bottom:1.25rem}
+.hero{text-align:center;margin-bottom:1.25rem;padding:.25rem 0}
+.hero-eyebrow{font-size:11px;letter-spacing:.08em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:.4rem}
+.hero h1{font-size:26px;font-weight:500;color:var(--color-text-primary);line-height:1.2}
+.hero h1 em{font-style:normal;color:#185FA5}
+.hero p{font-size:13px;color:var(--color-text-secondary);margin-top:.4rem;line-height:1.5}
+.pills{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:.75rem}
+.pill{font-size:11px;padding:3px 11px;border-radius:50px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary)}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.25rem}
+.stat-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.7rem .75rem;text-align:center}
+.stat-val{font-size:22px;font-weight:500;color:var(--color-text-primary)}
+.stat-lbl{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.tabs{display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab{background:none;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);cursor:pointer;padding:6px 13px;font-size:13px;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
+.tab.on{background:var(--color-text-primary);color:var(--color-background-primary);border-color:var(--color-text-primary)}
+.bdg{display:inline-block;font-size:11px;padding:1px 6px;border-radius:50px;margin-left:3px;vertical-align:middle}
+.bdg-blue{background:#185FA5;color:#E6F1FB}
+.bdg-amber{background:#BA7517;color:#FAEEDA}
+.bdg-red{background:#A32D2D;color:#FCEBEB}
+.view{display:none}.view.on{display:block}
+.prog-wrap{background:var(--color-background-secondary);border-radius:50px;height:4px;margin-bottom:1rem;overflow:hidden}
+.prog-fill{height:4px;border-radius:50px;background:#185FA5;transition:width .4s}
+.ndots{display:flex;gap:7px;justify-content:center;margin-bottom:1rem;flex-wrap:wrap}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--color-border-secondary);border:none;cursor:pointer;padding:0;transition:background .15s}
+.dot.on{background:var(--color-text-primary)}.dot.fav{background:#A32D2D}.dot.got{background:#185FA5}
+.wcard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:1rem}
+.wcard-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:.35rem}
+.wword{font-size:24px;font-weight:500;color:var(--color-text-primary)}
+.wacts{display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap}
+.ibtn{background:none;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);cursor:pointer;padding:5px 8px;font-size:12px;color:var(--color-text-secondary);display:flex;align-items:center;gap:4px;transition:all .15s}
+.ibtn.fav-on{border-color:#A32D2D;color:#A32D2D;background:#FCEBEB}
+.ibtn.got-on{border-color:#185FA5;color:#185FA5;background:#E6F1FB}
+.wpos{font-size:12px;color:var(--color-text-secondary);margin-bottom:.6rem}
+.wdef{font-size:14px;line-height:1.65;margin-bottom:.6rem;color:var(--color-text-primary)}
+.wex{font-size:13px;color:var(--color-text-secondary);font-style:italic;border-left:2px solid var(--color-border-secondary);padding-left:.65rem;margin-bottom:.6rem;line-height:1.55}
+.wsyn{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.6rem}
+.syn{font-size:11px;padding:3px 9px;border-radius:50px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary)}
+.vibe{font-size:11px;padding:3px 10px;border-radius:50px;background:#E6F1FB;color:#0C447C;border:0.5px solid #85B7EB}
+.career-tip{margin-top:.75rem;padding:.65rem .85rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);border-left:2px solid #185FA5;font-size:12px;color:var(--color-text-secondary);line-height:1.55}
+.career-tip strong{color:var(--color-text-primary);font-weight:500}
+.nav-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.nbtn{background:none;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);cursor:pointer;padding:6px 13px;font-size:13px;color:var(--color-text-primary);transition:background .15s}
+.nbtn:hover{background:var(--color-background-secondary)}
+.ctr{font-size:12px;color:var(--color-text-secondary)}
+.ad-mid{width:100%;height:200px;background:var(--color-background-secondary);border:0.5px dashed var(--color-border-secondary);border-radius:var(--border-radius-md);display:flex;align-items:center;justify-content:center;color:var(--color-text-tertiary);font-size:12px;margin-bottom:1rem}
+.sc{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:1rem}
+.sc h2{font-size:16px;font-weight:500;margin-bottom:1rem;color:var(--color-text-primary)}
+.fav-item{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);margin-bottom:7px}
+.fword{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.fdef{font-size:12px;color:var(--color-text-secondary);margin-top:1px}
+.rmbtn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);font-size:18px;padding:0 4px;line-height:1}
+.rmbtn:hover{color:#A32D2D}
+.empty{font-size:13px;color:var(--color-text-tertiary);text-align:center;padding:1.5rem 0}
+.gwrap{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:1rem}
+.ghdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.gtitle{font-size:16px;font-weight:500;color:var(--color-text-primary)}
+.gmeta{font-size:12px;color:var(--color-text-secondary)}
+.pbtn{width:100%;padding:10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:none;cursor:pointer;font-size:14px;color:var(--color-text-primary);transition:background .15s}
+.pbtn:hover:not(:disabled){background:var(--color-background-secondary)}
+.pbtn:disabled{opacity:.38;cursor:default}
+.rinfo{font-size:12px;color:var(--color-text-tertiary);text-align:center;margin-top:.6rem}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.75rem}
+.cbtn{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);cursor:pointer;padding:10px 11px;font-size:13px;color:var(--color-text-primary);text-align:left;transition:all .2s;line-height:1.4}
+.cbtn:hover:not(:disabled){border-color:var(--color-border-primary)}
+.cbtn.correct{background:#EAF3DE;border-color:#639922;color:#27500A}
+.cbtn.wrong{background:#FCEBEB;border-color:#A32D2D;color:#791F1F}
+.cbtn:disabled{cursor:default}
+.pips{display:flex;gap:6px;justify-content:center;margin-bottom:.75rem}
+.pip{width:10px;height:10px;border-radius:50%;background:var(--color-border-tertiary)}
+.pip.w{background:#639922}.pip.l{background:#A32D2D}
+.go-box{text-align:center;padding:1rem 0}
+.go-score{font-size:36px;font-weight:500;margin-bottom:.4rem;color:var(--color-text-primary)}
+.go-sub{font-size:14px;color:var(--color-text-secondary);margin-bottom:1rem}
+.rbtn{border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:none;cursor:pointer;padding:8px 24px;font-size:13px;color:var(--color-text-primary);transition:background .15s}
+.rbtn:hover:not(:disabled){background:var(--color-background-secondary)}
+.rbtn:disabled{opacity:.38;cursor:default}
+.comeback{font-size:12px;color:var(--color-text-tertiary);margin-top:.6rem}
+.sp-tiles{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-bottom:1rem}
+.tile{min-width:36px;height:36px;padding:0 8px;border-radius:var(--border-radius-md);background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500;color:var(--color-text-primary);transition:all .15s;user-select:none}
+.tile:hover{background:var(--color-background-primary);border-color:var(--color-border-primary)}
+.tile.used{opacity:.25;cursor:default;pointer-events:none}
+.tile.sel{background:var(--color-text-primary);color:var(--color-background-primary);border-color:var(--color-text-primary)}
+.sp-built{min-height:44px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:center;gap:5px;padding:0 12px;margin-bottom:.75rem;flex-wrap:wrap}
+.bl{width:28px;height:28px;border-radius:6px;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;cursor:pointer;color:var(--color-text-primary);transition:border-color .15s}
+.bl:hover{border-color:#A32D2D}
+.sp-acts{display:flex;gap:8px;margin-bottom:.75rem}
+.spbtn{flex:1;padding:8px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:none;cursor:pointer;font-size:13px;color:var(--color-text-primary);transition:background .15s}
+.spbtn:hover:not(:disabled){background:var(--color-background-secondary)}
+.spbtn:disabled{opacity:.3;cursor:default}
+.spbtn.go{border-color:#185FA5;color:#185FA5;background:#E6F1FB}
+.spbtn.go:hover{background:#B5D4F4}
+.spfb{text-align:center;font-size:13px;min-height:20px;margin-bottom:.75rem;font-weight:500}
+.spfb.ok{color:#3B6D11}.spfb.err{color:#791F1F}.spfb.dup{color:#854F0B}
+.found-area{margin-top:.75rem}
+.found-lbl{font-size:12px;color:var(--color-text-secondary);margin-bottom:.5rem}
+.found-chips{display:flex;gap:6px;flex-wrap:wrap}
+.fchip{font-size:12px;padding:3px 10px;border-radius:50px;background:#EAF3DE;border:0.5px solid #97C459;color:#27500A}
+.sp-timer{font-size:28px;font-weight:500;text-align:center;margin-bottom:.35rem;color:var(--color-text-primary)}
+.sp-timer.low{color:#A32D2D}
+.sp-scoreline{font-size:12px;color:var(--color-text-secondary);text-align:center;margin-bottom:.9rem}
+.sp-input-row{display:flex;gap:8px;margin-bottom:.5rem}
+.sp-input-row input{flex:1;padding:9px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:14px;background:var(--color-background-primary);color:var(--color-text-primary);outline:none}
+.sp-input-row input:focus{border-color:#185FA5;box-shadow:0 0 0 2px #B5D4F4}
+.sp-scoring{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:1rem}
+.sp-score-pill{font-size:11px;padding:3px 10px;border-radius:50px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary)}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.lchip{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:8px 10px}
+.lchip-word{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.lchip-def{font-size:11px;color:var(--color-text-secondary);margin-top:2px;line-height:1.3}
+.qfb{font-size:13px;min-height:48px;margin-bottom:.5rem;line-height:1.55;text-align:center;padding:0 .5rem}
+.qdef{font-size:17px;font-weight:500;text-align:center;min-height:50px;margin-bottom:.9rem;line-height:1.5;color:var(--color-text-primary)}
+.qhint{font-size:13px;color:var(--color-text-secondary);text-align:center;margin-bottom:.9rem;min-height:18px;font-style:italic}
+</style>
+
+<h2 class="sr-only">One Word Better — daily career vocabulary, quiz, and word rush game to sharpen how you speak and write at work</h2>
+
+<div style="padding:.75rem 0">
+
+<div class="ad">728×90 AdSense leaderboard</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">Daily career vocabulary</div>
+  <h1>One word <em>better</em></h1>
+  <p>The words that get you hired, promoted, and heard.<br>One sharp word a day. Real career impact.</p>
+  <div class="pills">
+    <span class="pill"><i class="ti ti-briefcase" aria-hidden="true"></i> Interview-ready</span>
+    <span class="pill"><i class="ti ti-trending-up" aria-hidden="true"></i> Leadership vocab</span>
+    <span class="pill"><i class="ti ti-writing" aria-hidden="true"></i> Write sharper</span>
+    <span class="pill"><i class="ti ti-flame" aria-hidden="true"></i> Daily streak</span>
+  </div>
+</div>
+
+<div class="stats-row">
+  <div class="stat-card"><div class="stat-val" id="sv-streak" style="color:#BA7517">0</div><div class="stat-lbl"><i class="ti ti-flame" aria-hidden="true"></i> day streak</div></div>
+  <div class="stat-card"><div class="stat-val" id="sv-learned">0</div><div class="stat-lbl"><i class="ti ti-check" aria-hidden="true"></i> mastered</div></div>
+  <div class="stat-card"><div class="stat-val" id="sv-best">0</div><div class="stat-lbl"><i class="ti ti-trophy" aria-hidden="true"></i> best quiz</div></div>
+</div>
+
+<div class="tabs">
+  <button class="tab on" onclick="sv('words')">Today's words</button>
+  <button class="tab" onclick="sv('quiz')">Quiz <span class="bdg bdg-amber" id="qbdg"></span></button>
+  <button class="tab" onclick="sv('spell')">Word rush <span class="bdg bdg-blue" id="sbdg"></span></button>
+  <button class="tab" onclick="sv('saved')">Saved <span class="bdg bdg-red" id="fbdg" style="display:none">0</span></button>
+  <button class="tab" onclick="sv('progress')">Progress</button>
+</div>
+
+<div id="view-words" class="view on">
+  <div class="prog-wrap"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  <div class="ndots" id="dots"></div>
+  <div class="wcard" id="wcard"></div>
+  <div class="ad-mid">300×250 AdSense rectangle</div>
+  <div class="nav-row">
+    <button class="nbtn" onclick="go(-1)"><i class="ti ti-arrow-left" aria-hidden="true"></i> Prev</button>
+    <span class="ctr" id="ctr"></span>
+    <button class="nbtn" onclick="go(1)">Next <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+  </div>
+</div>
+
+<div id="view-quiz" class="view">
+  <div class="gwrap">
+    <div class="ghdr"><span class="gtitle">Definition match</span><span class="gmeta" id="qmeta"></span></div>
+    <div id="qbody"></div>
+  </div>
+  <div class="ad-mid">300×250 AdSense rectangle</div>
+</div>
+
+<div id="view-spell" class="view">
+  <div class="gwrap">
+    <div class="ghdr"><span class="gtitle">Word rush</span><span class="gmeta" id="smeta"></span></div>
+    <div id="sbody"></div>
+  </div>
+  <div class="ad-mid">300×250 AdSense rectangle</div>
+</div>
+
+<div id="view-saved" class="view">
+  <div class="sc"><h2><i class="ti ti-heart" aria-hidden="true" style="color:#A32D2D;margin-right:6px"></i>Saved words</h2><div id="fav-list"></div></div>
+</div>
+
+<div id="view-progress" class="view">
+  <div class="sc"><h2><i class="ti ti-chart-bar" aria-hidden="true" style="margin-right:6px"></i>Words mastered</h2><div id="learned-list"></div></div>
+  <div class="sc">
+    <h2><i class="ti ti-calendar" aria-hidden="true" style="margin-right:6px"></i>My streak</h2>
+    <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:36px;font-weight:500;color:#BA7517" id="streak-big">0</span><span style="font-size:14px;color:var(--color-text-secondary)">days in a row</span></div>
+    <p style="font-size:13px;color:var(--color-text-secondary);margin-top:.5rem">Come back tomorrow to keep your streak alive — one word better every day.</p>
+  </div>
+</div>
+
+</div>
+
+<script>
+const ALL_SETS=[
+  [{word:"Articulate",pos:"verb / adjective",phon:"/ɑːˈtɪk.jʊ.leɪt/",def:"Express an idea clearly and effectively; able to speak fluently.",ex:"She articulated the strategy so clearly that the entire room aligned instantly.",syns:["communicate","express","convey"],vibe:"Communication",tip:"Use <strong>articulate</strong> in interviews: \"I'm able to articulate complex ideas to both technical and non-technical audiences.\" It signals executive presence."},
+   {word:"Proactive",pos:"adjective",phon:"/ˌprəʊˈæk.tɪv/",def:"Creating or controlling a situation rather than just responding to it.",ex:"A proactive approach to risk management saved the project three weeks.",syns:["forward-thinking","initiative","anticipatory"],vibe:"Leadership",tip:"Replace \"I work hard\" with \"I take a proactive approach\" in cover letters — it immediately signals ownership mindset."},
+   {word:"Acumen",pos:"noun",phon:"/ˈæk.jʊ.mən/",def:"The ability to make good judgements and quick decisions in a particular domain.",ex:"Her financial acumen helped the startup become profitable in year one.",syns:["insight","sharpness","judgment"],vibe:"Executive",tip:"\"Business acumen\" is one of the most searched leadership traits. Drop it naturally in interviews: \"I've developed strong commercial acumen over five years in sales.\""},
+   {word:"Synthesize",pos:"verb",phon:"/ˈsɪn.θɪ.saɪz/",def:"Combine information from multiple sources into a coherent whole.",ex:"He synthesized data from three departments to build a single compelling narrative.",syns:["integrate","consolidate","distill"],vibe:"Analytical",tip:"Saying you can <strong>synthesize</strong> information positions you as a strategic thinker, not just a data gatherer — powerful in analyst and management roles."},
+   {word:"Stakeholder",pos:"noun",phon:"/ˈsteɪkˌhəʊl.dər/",def:"A person or group with an interest or concern in a project or organisation.",ex:"She mapped every stakeholder before the product launch to ensure alignment.",syns:["partner","contributor","interested party"],vibe:"Business",tip:"Mentioning stakeholder management in interviews signals cross-functional maturity — especially valued at senior IC and management levels."},
+   {word:"Iterative",pos:"adjective",phon:"/ˈɪt.ər.ə.tɪv/",def:"Involving repetition of a process with the aim of approaching a desired result.",ex:"Their iterative design process led to a product customers actually wanted.",syns:["incremental","cyclical","progressive"],vibe:"Process",tip:"In tech and product interviews, \"I take an iterative approach\" shows you ship, learn, and improve — exactly what hiring managers want to hear."},
+   {word:"Leverage",pos:"verb",phon:"/ˈlev.ər.ɪdʒ/",def:"Use something to maximum advantage in a strategic way.",ex:"We leveraged existing partnerships to cut the launch timeline in half.",syns:["utilise","capitalise on","maximise"],vibe:"Strategic",tip:"Avoid overuse in casual speech, but in interviews and proposals, \"leverage\" concisely signals strategic resourcefulness."},
+   {word:"Calibrate",pos:"verb",phon:"/ˈkæl.ɪ.breɪt/",def:"Carefully assess and adjust a plan or judgement to a situation.",ex:"She calibrated her communication style depending on the audience.",syns:["adjust","fine-tune","tailor"],vibe:"Adaptability",tip:"\"I calibrate my approach based on feedback\" is a strong self-awareness signal in performance reviews and leadership interviews."},
+   {word:"Nuanced",pos:"adjective",phon:"/ˈnjuː.ɑːnst/",def:"Characterised by subtle distinctions and careful attention to detail.",ex:"A nuanced understanding of the market helped him spot the gap before rivals.",syns:["subtle","layered","considered"],vibe:"Analytical",tip:"Describing your thinking as <strong>nuanced</strong> signals you don't oversimplify — especially valuable in consulting, policy, and product roles."},
+   {word:"Bandwidth",pos:"noun",phon:"/ˈbænd.wɪdθ/",def:"The capacity to handle a volume of work or information at a given time.",ex:"\"Do we have the bandwidth to take on another workstream this quarter?\"",syns:["capacity","availability","headroom"],vibe:"Workplace",tip:"A workplace classic. Use it to set realistic expectations: \"I want to flag I may not have bandwidth for both tracks this sprint.\" It's direct and professional."}],
+
+  [{word:"Concise",pos:"adjective",phon:"/kənˈsaɪs/",def:"Giving a lot of information clearly and in a few words; brief but comprehensive.",ex:"Her concise summary saved the committee 30 minutes of reading.",syns:["brief","succinct","to the point"],vibe:"Communication",tip:"In emails and presentations, being <strong>concise</strong> is a leadership signal. State the ask in the first line — always."},
+   {word:"Traction",pos:"noun",phon:"/ˈtræk.ʃən/",def:"Initial progress or momentum in a project or market.",ex:"The pilot gained real traction with early adopters within the first two weeks.",syns:["momentum","progress","uptake"],vibe:"Growth",tip:"\"We're gaining traction\" is a key phrase in startup pitches and OKR reviews. It signals momentum without overpromising."},
+   {word:"Pragmatic",pos:"adjective",phon:"/præɡˈmæt.ɪk/",def:"Dealing with things sensibly and realistically rather than theoretically.",ex:"A pragmatic leader, she chose the solution that shipped — not the perfect one.",syns:["practical","realistic","grounded"],vibe:"Leadership",tip:"Calling yourself <strong>pragmatic</strong> in interviews signals you ship and deliver, not just theorise — exactly what growth-stage companies want."},
+   {word:"Cadence",pos:"noun",phon:"/ˈkeɪ.dəns/",def:"The rhythm or regularity of a recurring process or communication.",ex:"Their weekly cadence of stand-ups kept the team aligned without micromanagement.",syns:["rhythm","frequency","schedule"],vibe:"Operations",tip:"\"We established a strong cadence\" is a hallmark of mature teams. Use it in interviews to show you build repeatable systems."},
+   {word:"Credibility",pos:"noun",phon:"/ˌkred.ɪˈbɪl.ɪ.ti/",def:"The quality of being trusted and believed in.",ex:"She built credibility with the client by consistently delivering on small promises first.",syns:["trust","authority","reliability"],vibe:"Executive",tip:"Credibility is earned before influence. In new roles: over-deliver on small asks early to build it fast."},
+   {word:"Pivot",pos:"verb",phon:"/ˈpɪv.ɪt/",def:"Change direction or strategy in response to new information or conditions.",ex:"When the market shifted, the team pivoted the product roadmap within a week.",syns:["shift","adapt","reorient"],vibe:"Agility",tip:"\"We pivoted based on user feedback\" is one of the clearest signals of product maturity in any interview or pitch."},
+   {word:"Accountable",pos:"adjective",phon:"/əˈkaʊn.tə.bəl/",def:"Required or expected to justify actions or decisions; responsible.",ex:"He held himself accountable for the missed deadline and proposed a recovery plan.",syns:["responsible","answerable","reliable"],vibe:"Culture",tip:"\"I hold myself accountable\" is stronger than \"I'm responsible\" — it implies you also do something when things go wrong."},
+   {word:"Granular",pos:"adjective",phon:"/ˈɡræn.jʊ.lər/",def:"Detailed and precise; examined or analysed at a fine level.",ex:"The CFO asked for a granular breakdown of Q3 spend by region.",syns:["detailed","fine-grained","specific"],vibe:"Analytical",tip:"\"Let me get granular on this\" signals analytical depth. Use it when presenting data to leadership — it shows you understand the numbers behind the numbers."},
+   {word:"Scope",pos:"noun / verb",phon:"/skəʊp/",def:"The range of a project; or to investigate and define that range.",ex:"Before committing, she scoped the project carefully to avoid later surprises.",syns:["define","assess","determine"],vibe:"Project",tip:"Saying you \"scoped the work carefully\" signals project maturity and risk awareness — two things every hiring manager values."},
+   {word:"Compelling",pos:"adjective",phon:"/kəmˈpel.ɪŋ/",def:"Evoking interest, attention, or admiration in a powerfully irresistible way.",ex:"He delivered a compelling pitch that secured the funding in one meeting.",syns:["persuasive","powerful","convincing"],vibe:"Influence",tip:"\"I built a compelling case\" is how you describe advocacy in interviews. It signals you don't just have opinions — you persuade with evidence."}],
+
+  [{word:"Initiative",pos:"noun",phon:"/ɪˈnɪʃ.ə.tɪv/",def:"The ability to assess and act independently without being told to.",ex:"She took the initiative to document the process before anyone asked.",syns:["drive","self-starter","enterprise"],vibe:"Leadership",tip:"\"I take initiative\" is expected. Show it with specifics: \"I noticed a gap and launched a process to fix it without being asked.\""},
+   {word:"Resilient",pos:"adjective",phon:"/rɪˈzɪl.i.ənt/",def:"Able to withstand setbacks and recover quickly.",ex:"The resilient team turned a product failure into a learning that shaped the roadmap.",syns:["adaptable","robust","bounces back"],vibe:"Mindset",tip:"Resilience is one of the top traits in leadership frameworks. Frame it with evidence: \"When X didn't work, I adapted by doing Y.\""},
+   {word:"Alignment",pos:"noun",phon:"/əˈlaɪn.mənt/",def:"The state of agreement or cooperation among people or groups with shared goals.",ex:"Getting leadership alignment early prevented weeks of rework later.",syns:["consensus","agreement","cohesion"],vibe:"Cross-functional",tip:"\"Driving alignment\" is a core leadership competency. Mention it to show you can manage up and across — not just down."},
+   {word:"Tangible",pos:"adjective",phon:"/ˈtæn.dʒɪ.bəl/",def:"Clear and definite; real and quantifiable.",ex:"She delivered tangible results: 40% faster onboarding, 15% lower churn.",syns:["concrete","measurable","real"],vibe:"Results",tip:"Always pair <strong>tangible</strong> with numbers. \"Tangible results\" without metrics is weak — with them, it's interview gold."},
+   {word:"Scalable",pos:"adjective",phon:"/ˈskeɪ.lə.bəl/",def:"Able to be expanded or upgraded to handle greater demand.",ex:"They built a scalable infrastructure that supported 10x user growth without a rewrite.",syns:["expandable","elastic","growth-ready"],vibe:"Systems",tip:"In any technical or operational role, showing you build for scale (not just today) signals seniority of thinking."},
+   {word:"Stakeholder",pos:"noun",phon:"/ˈsteɪkˌhəʊl.dər/",def:"Any person or group that has an interest in the outcome of a project.",ex:"She identified 12 stakeholders across four teams and managed each relationship.",syns:["partner","sponsor","interested party"],vibe:"Business",tip:"\"Managing stakeholder expectations\" is a top phrase in project manager and product job descriptions. Use it with specifics."},
+   {word:"Objective",pos:"noun / adjective",phon:"/əbˈdʒek.tɪv/",def:"A specific goal; or not influenced by personal feelings or opinions.",ex:"Setting clear objectives at the start made performance reviews far more productive.",syns:["goal","target","impartial"],vibe:"Results",tip:"OKRs hinge on strong objectives. In interviews: \"I set objectives with clear metrics so my team always knows what success looks like.\""},
+   {word:"Benchmark",pos:"noun / verb",phon:"/ˈbentʃ.mɑːk/",def:"A standard or point of reference; to measure or evaluate against a standard.",ex:"He benchmarked their NPS against three competitors before proposing improvements.",syns:["standard","baseline","compare"],vibe:"Analytical",tip:"Saying you <strong>benchmark</strong> your work shows you understand context, not just output — a strong signal for data-driven roles."},
+   {word:"Consensus",pos:"noun",phon:"/kənˈsen.səs/",def:"General agreement among a group after consideration.",ex:"Rather than imposing a decision, she built consensus across three competing teams.",syns:["agreement","accord","buy-in"],vibe:"Culture",tip:"Building consensus signals collaborative leadership. In interviews, contrast it with when you've had to decide without it — that shows real maturity."},
+   {word:"Mitigate",pos:"verb",phon:"/ˈmɪt.ɪ.ɡeɪt/",def:"Make less severe or serious; reduce the impact of a risk or problem.",ex:"He mitigated the rollout risk by running a two-week beta with power users first.",syns:["reduce","minimise","manage"],vibe:"Risk",tip:"\"Mitigating risk\" belongs in every project retrospective and any interview answer about challenges. It shows foresight."}],
+
+  [{word:"Deliverable",pos:"noun",phon:"/dɪˈlɪv.ər.ə.bəl/",def:"A concrete result or output that must be produced as part of a project.",ex:"Each sprint ended with three clear deliverables shared with the client.",syns:["output","result","product"],vibe:"Project",tip:"Using <strong>deliverable</strong> over \"task\" or \"thing\" instantly signals project management maturity."},
+   {word:"Visibility",pos:"noun",phon:"/ˌvɪz.ɪˈbɪl.ɪ.ti/",def:"The degree to which work or a person is known and recognised within an organisation.",ex:"She increased her visibility by presenting findings directly to the exec team.",syns:["exposure","profile","recognition"],vibe:"Career",tip:"Your work doesn't speak for itself — visibility does. In interviews, explain how you've actively built it."},
+   {word:"Advocate",pos:"verb / noun",phon:"/ˈæd.və.keɪt/",def:"Publicly recommend or support; a person who does this.",ex:"He advocated for flexible working policies long before it became standard.",syns:["champion","support","promote"],vibe:"Leadership",tip:"\"I advocate for my team\" is a strong manager differentiator. It shows you put people first — a top retention signal for hiring managers."},
+   {word:"Robust",pos:"adjective",phon:"/rəʊˈbʌst/",def:"Strong and effective in all or most situations and conditions.",ex:"She built a robust reporting framework that survived three leadership changes.",syns:["strong","reliable","resilient"],vibe:"Systems",tip:"\"A robust process\" implies it works under pressure, at scale, and without you. Show that in interviews with specific examples."},
+   {word:"Coherent",pos:"adjective",phon:"/kəʊˈhɪər.ənt/",def:"Logical and consistent; forming a unified whole.",ex:"He delivered a coherent narrative across 40 slides in under 20 minutes.",syns:["logical","clear","unified"],vibe:"Communication",tip:"A coherent argument is the goal of every deck and presentation. Structure: situation → complication → resolution."},
+   {word:"Empathy",pos:"noun",phon:"/ˈem.pə.θi/",def:"The ability to understand and share the feelings of another.",ex:"Her empathy with customers shaped a product that solved real, unspoken needs.",syns:["understanding","compassion","connection"],vibe:"Culture",tip:"Empathy is a leadership superpower. In interviews: \"I try to understand what success looks like from my stakeholder's perspective before I propose anything.\""},
+   {word:"Autonomous",pos:"adjective",phon:"/ɔːˈtɒn.ə.məs/",def:"Acting independently and having the freedom to do so.",ex:"The team worked autonomously across three time zones without daily check-ins.",syns:["independent","self-directed","self-managing"],vibe:"Mindset",tip:"\"I work well autonomously\" is expected. Prove it: \"In my last role I owned X from kickoff to launch with minimal direction.\""},
+   {word:"Friction",pos:"noun",phon:"/ˈfrɪk.ʃən/",def:"Resistance or conflict in a process, system, or relationship.",ex:"Removing friction from the sign-up flow increased completions by 28%.",syns:["resistance","obstacle","drag"],vibe:"Product",tip:"Reducing <strong>friction</strong> is the job of product, ops, and CX teams. Using it shows you think about the user's experience, not just features."},
+   {word:"Outcome",pos:"noun",phon:"/ˈaʊt.kʌm/",def:"The way a thing turns out; a consequence or result.",ex:"They shifted from measuring outputs to measuring outcomes — a game-changer for the team.",syns:["result","consequence","impact"],vibe:"Results",tip:"Output = what you did. Outcome = what changed because of it. Always answer interview questions with outcomes, not just activities."},
+   {word:"Agile",pos:"adjective",phon:"/ˈædʒ.aɪl/",def:"Able to move quickly and easily; flexible in approach and method.",ex:"An agile mindset helped the team respond to a competitor launch within days.",syns:["flexible","adaptive","nimble"],vibe:"Process",tip:"Beyond the methodology, <strong>agile</strong> as a mindset — quick to learn, quick to adapt — is one of the most sought traits in modern workplaces."}]
+];
+
+const RWORDS=["the","and","are","for","that","this","with","have","from","they","will","been","said","each","time","word","long","make","very","after","back","some","could","into","than","then","them","these","when","many","more","also","over","such","only","both","well","even","just","come","its","most","other","which","about","would","there","their","what","were","your","all","can","has","her","him","his","how","may","new","now","our","out","see","she","two","use","was","way","who","did","get","let","put","too","yes","yet","act","age","ago","aid","aim","air","art","ask","bad","bed","big","bit","box","boy","car","cat","cup","cut","day","die","dog","dot","dry","ear","eat","egg","end","eye","far","few","fun","gas","got","gun","guy","hat","hit","hot","ice","ill","job","joy","key","kid","law","lay","leg","lie","lot","low","man","map","men","met","mix","net","nor","odd","off","oil","old","one","own","pay","pet","pop","pot","raw","red","rid","row","run","sad","sat","sea","set","shy","sin","sir","sit","sky","son","sum","sun","tan","tap","tax","tea","ten","tie","tin","tip","toe","top","toy","try","tug","van","vat","win","wit","yam","zip","able","acid","acre","aged","aide","also","amid","arch","area","army","atom","aunt","auto","avid","axle","bake","bale","ball","band","bane","bare","bark","barn","base","bath","bead","beak","beam","bean","bear","beat","beef","bell","belt","bend","best","bile","bind","bird","bite","blow","blue","boat","bold","bolt","bond","bone","book","boom","bore","born","both","bowl","brow","buck","bulb","bull","bump","burn","bust","cage","cake","calm","came","camp","cane","cape","card","care","cart","case","cash","cave","cell","cent","chip","chop","cite","city","clam","clan","clap","claw","clay","clip","club","clue","coal","coat","coil","coin","cold","come","cone","cook","cool","cope","cord","core","corn","cost","cozy","crew","crop","crow","cube","cure","curl","damp","dare","dark","dart","data","date","daze","dead","deal","dean","dear","debt","deck","deed","deep","dent","desk","dial","dice","dill","dime","dine","dire","dirt","disk","dive","dock","dome","done","doom","dove","drag","draw","drip","drop","drug","drum","dual","dull","dumb","dump","dune","dupe","dusk","dust","duty","each","earl","earn","ease","east","easy","edge","else","emit","epic","even","exam","exec","exit","face","fact","fade","fail","fair","fake","fall","fame","fang","fare","farm","fast","fate","fawn","feat","feel","feet","fell","felt","fend","fern","fill","film","find","fine","fire","firm","fish","fist","five","flag","flaw","flea","flee","flew","flex","flip","flit","flow","foam","fold","fond","font","food","fool","foot","ford","form","fort","four","free","fret","fund","fuse","fuzz","gale","game","gang","gate","gave","gaze","gear","gild","girl","give","glad","glee","glow","glue","goal","goat","gold","gone","good","gore","grab","gram","grim","grip","grit","grow","gulf","gull","haul","hawk","haze","head","heal","heap","heat","heel","heir","helm","help","herb","herd","hero","hike","hill","hint","hire","hive","hole","home","hood","hook","hope","horn","hose","host","hour","huge","hull","hunt","hurl","idea","idle","info","iron","itch","item","jade","jail","jolt","junk","just","keen","kept","kill","kind","king","knot","know","lace","lack","laid","lake","lame","land","lane","lash","last","late","lead","leaf","lean","leap","left","lend","lens","less","lick","life","lift","like","limb","lime","line","link","list","live","load","loan","loft","lone","look","loom","loop","lore","lose","loss","lost","loud","lure","lurk","lush","lust","made","maid","mail","main","malt","mane","mare","mark","mart","mask","mast","mate","math","maze","meal","mean","meat","meet","melt","mere","mesh","mild","mile","mill","mine","mist","moan","mode","mood","moon","more","moss","move","muck","mule","myth","nail","name","navy","near","neck","need","nest","nice","nick","nine","node","noon","norm","nose","note","noun","nude","numb","obey","once","only","onto","open","oral","oven","pact","page","paid","pail","pale","palm","park","part","past","path","pave","pawn","peak","pear","peat","peel","peer","pelt","pest","pine","pink","pipe","plan","play","plea","plot","plow","plug","plum","poem","pole","pond","poor","pore","pose","post","pour","pray","prey","prim","prop","pull","pump","pure","push","rack","rage","raid","rail","rain","rake","ramp","rank","rant","rash","rate","rave","read","real","reap","rear","rely","rend","rent","rest","rice","rich","ring","riot","ripe","rise","risk","rite","roam","robe","rock","role","roll","roof","room","rope","rose","ruin","rule","rune","ruse","rush","rust","sack","safe","sage","sake","sale","salt","same","sand","sane","save","scan","scar","seam","seed","seek","seep","self","sell","send","sent","shed","ship","shoe","shop","shot","show","shun","shut","sick","sigh","silk","sing","sink","site","size","skin","skip","slab","slap","slim","slip","slow","slug","slur","smug","snag","snap","snip","snow","snub","soak","soap","sock","soil","sold","sole","song","soot","sore","sort","soul","sour","span","spin","spit","spot","spur","star","stay","stem","step","stew","stir","stop","stud","stun","such","sung","sunk","swap","sway","swim","take","tale","talk","tall","tame","taut","tear","tell","tend","term","test","text","than","thee","thin","tick","tide","tile","till","tiny","tire","toad","told","toll","tomb","tome","tone","took","tore","torn","tour","town","trim","trio","trip","trot","true","tune","turf","type","ugly","unit","upon","urge","used","vale","vary","veil","vein","verb","vest","view","vile","vine","void","wade","wage","wail","wake","walk","wall","wand","wane","want","wary","wash","wave","weak","weed","weep","weld","went","west","whim","whip","wide","wife","wild","will","wilt","wind","wine","wing","wink","wipe","wire","wise","wish","wolf","wood","wool","wore","worn","yell","zero","zone",
+"about","above","abuse","acorn","acrid","acute","adept","admit","adopt","adult","after","again","agile","agony","agree","alert","alike","alive","allay","aloof","alter","amend","amiss","ample","anger","angle","angst","annex","annoy","apart","apply","arena","argue","arise","array","asset","atlas","avert","await","awoke","basic","basis","began","begin","being","below","bench","bible","birth","black","blade","blame","blank","blast","blaze","bleak","blend","bless","blind","block","blood","bloom","blown","blunt","board","bogus","bonus","boost","brake","brand","brave","bread","break","breed","brick","brief","bring","broad","brood","brook","brown","brush","budge","build","built","burst","buyer","bylaw","cable","cadet","carry","catch","cause","cease","chain","chair","chalk","chaos","charm","chasm","cheap","check","cheek","cheer","chess","chest","chief","child","choir","civic","civil","claim","clash","class","clean","clear","clerk","click","cliff","climb","cling","clock","close","cloud","coach","comet","comic","comma","corps","couch","count","craft","crash","crave","crazy","creek","crest","crime","crisp","cross","crowd","crown","cruel","crush","curve","cycle","daily","dance","dated","decoy","dense","depot","depot","depth","derby","digit","ditch","dizzy","donor","doubt","dough","draft","drain","drama","drank","dread","dream","dress","drift","drink","drive","drove","drown","early","earth","eight","elite","email","empty","enjoy","enter","equal","error","essay","event","every","exact","exist","extra","fable","faith","false","fancy","farce","fatal","fault","favor","feast","fence","fever","fiber","field","fifth","fifty","fight","final","first","fixed","flame","flash","fleet","flesh","float","floor","flour","focus","force","forge","forth","found","frame","frank","fraud","fresh","front","frost","fruit","fully","funny","gauge","ghost","giant","given","gland","glass","gloom","gloss","glory","glove","grace","grade","grain","grand","grant","grasp","grass","grate","grave","graze","great","greed","green","greet","grief","gripe","groan","groom","group","grove","growl","gruel","guard","guess","guide","guild","guile","guise","gusto","happy","harsh","haste","haven","heard","heart","heavy","hedge","hence","hinge","hoard","horse","hotel","house","human","humid","husky","image","imply","infer","inner","input","inter","intro","issue","ivory","judge","juice","juicy","jumpy","knack","knife","knock","known","latch","later","laugh","layer","leach","learn","lease","least","legal","light","limit","local","lofty","login","loose","lucky","lunar","lying","maker","manor","march","match","maxim","melee","mercy","merit","metal","minor","minus","mixed","model","moist","money","month","moral","mourn","mouth","mural","murky","muted","naive","narco","nasty","naval","nerve","night","nihil","noble","noise","north","noted","novel","nurse","nymph","occur","often","order","other","ought","outdo","outer","outwit","owner","ozone","paint","panic","papal","party","pause","peace","pearl","pedal","penny","perky","phase","phone","photo","pilot","pitch","pixel","place","plain","plead","plumb","plume","plunk","plush","point","polite","porch","power","press","price","pride","prime","print","prior","privy","prize","probe","proof","prose","proud","prove","prowl","prune","pudgy","pulse","punch","pupil","queen","queue","quick","quiet","quota","quote","raise","rally","range","rapid","ratio","reach","realm","rebel","recap","redux","reign","relax","relay","repay","repel","reset","rider","rifle","right","risky","rival","river","rocky","rogue","round","rouse","royal","rural","scale","scene","scope","score","scorn","scout","screw","seize","sense","serve","setup","seven","shake","shall","shame","shape","share","sharp","shift","shock","shore","short","shout","shove","sight","silly","since","sixth","skill","slack","slash","slave","sleep","slice","slide","slime","slope","sloth","small","smart","smell","smile","smite","smock","smoke","sneak","solid","solve","sorry","south","space","spare","spark","speak","spend","spill","spine","spite","spoke","spook","spray","squad","stack","staff","stage","stake","stale","stall","stamp","stand","stark","state","stave","steel","steer","still","sting","stint","stock","store","storm","story","stout","straw","stray","strip","strive","strode","stuck","study","style","sugar","suite","super","surge","swamp","swear","sweep","sweet","swept","swept","swift","swipe","swoop","synth","table","tacit","teach","tempo","tense","theft","thine","thing","think","third","those","three","threw","throw","timer","tired","title","today","token","tools","total","touch","touch","tough","trace","track","trade","trail","train","trait","trash","trial","tribe","trick","tried","troop","truck","truth","tumor","tutor","twice","twirl","twist","tying","ultra","under","undue","union","unite","until","upper","upset","usher","utter","vague","valid","valor","value","valve","video","vigor","viral","virus","visit","vital","vivid","vocal","voice","voter","vouch","vulva","wager","watch","weary","weave","wedge","weigh","weird","where","which","while","white","whole","wield","woman","women","world","worry","worse","worst","worth","would","wound","wrath","write","wrote","yield","young","youth","zonal"];
+
+const rset=new Set(RWORDS);
+const MAX_P=3,SP_TIME=90;
+let WORDS=[],cur=0,favs={},learned={},streak=0,bestQ=0,qPlays=0,sPlays=0,qState=null,sState=null,sti=null;
+
+function todayKey(){return new Date().toISOString().slice(0,10)}
+function dayIdx(){const e=new Date('2024-01-01'),n=new Date();return Math.floor((n-e)/(864e5))%ALL_SETS.length}
+function load(){
+  try{
+    const s=JSON.parse(localStorage.getItem('owb1')||'{}');
+    favs=s.favs||{};learned=s.learned||{};bestQ=s.bestQ||0;
+    const tk=todayKey(),yd=new Date(Date.now()-864e5).toISOString().slice(0,10);
+    if(s.lastVisit===tk){streak=s.streak||1;qPlays=s.qPlays||0;sPlays=s.sPlays||0;}
+    else if(s.lastVisit===yd){streak=(s.streak||0)+1;qPlays=0;sPlays=0;}
+    else{streak=1;qPlays=0;sPlays=0;}
+  }catch(e){favs={};learned={};streak=1;bestQ=0;qPlays=0;sPlays=0;}
+  WORDS=ALL_SETS[dayIdx()];
+}
+function save(){try{localStorage.setItem('owb1',JSON.stringify({favs,learned,bestQ,streak,qPlays,sPlays,lastVisit:todayKey()}));}catch(e){}}
+function updateUI(){
+  document.getElementById('sv-streak').textContent=streak;
+  document.getElementById('streak-big').textContent=streak;
+  document.getElementById('sv-learned').textContent=Object.keys(learned).length;
+  document.getElementById('sv-best').textContent=bestQ;
+  const qr=Math.max(0,MAX_P-qPlays),sr=Math.max(0,MAX_P-sPlays);
+  document.getElementById('qbdg').textContent=qr+' left';
+  document.getElementById('sbdg').textContent=sr+' left';
+  const fk=Object.keys(favs).length;
+  const fb=document.getElementById('fbdg');
+  fb.textContent=fk;fb.style.display=fk?'inline-block':'none';
+  document.getElementById('prog-fill').style.width=Math.round((Object.keys(learned).length/WORDS.length)*100)+'%';
+}
+function rDots(){
+  document.getElementById('dots').innerHTML=WORDS.map((w,i)=>`<button class="dot${i===cur?' on':''}${favs[w.word]?' fav':''}${learned[w.word]?' got':''}" onclick="jump(${i})" aria-label="Word ${i+1}"></button>`).join('');
+}
+function rCard(){
+  const w=WORDS[cur],iF=!!favs[w.word],iL=!!learned[w.word];
+  document.getElementById('wcard').innerHTML=`
+    <div class="wcard-top">
+      <span class="wword">${w.word}</span>
+      <div class="wacts">
+        <button class="ibtn${iF?' fav-on':''}" onclick="toggleFav(${cur})"><i class="ti ti-heart" aria-hidden="true" style="font-size:14px"></i>${iF?'Saved':'Save'}</button>
+        <button class="ibtn${iL?' got-on':''}" onclick="toggleLearned(${cur})"><i class="ti ti-check" aria-hidden="true" style="font-size:14px"></i>${iL?'Mastered':'Got it'}</button>
+      </div>
+    </div>
+    <div class="wpos">${w.pos} &nbsp;·&nbsp; ${w.phon}</div>
+    <div class="wdef">${w.def}</div>
+    <div class="wex">"${w.ex}"</div>
+    <div class="wsyn">${w.syns.map(s=>`<span class="syn">${s}</span>`).join('')}</div>
+    <span class="vibe">${w.vibe}</span>
+    <div class="career-tip"><i class="ti ti-bulb" aria-hidden="true" style="font-size:14px;vertical-align:-2px;margin-right:5px;color:#185FA5"></i><strong>Career tip:</strong> ${w.tip}</div>
+  `;
+  document.getElementById('ctr').textContent=`${cur+1} / ${WORDS.length}`;
+}
+function toggleFav(i){const w=WORDS[i].word;if(favs[w])delete favs[w];else favs[w]={word:w,pos:WORDS[i].pos,def:WORDS[i].def};save();updateUI();rDots();rCard();}
+function toggleLearned(i){const w=WORDS[i].word;if(learned[w])delete learned[w];else learned[w]={word:w,def:WORDS[i].def};save();updateUI();rDots();rCard();}
+function go(d){cur=(cur+d+WORDS.length)%WORDS.length;rDots();rCard();}
+function jump(i){cur=i;rDots();rCard();}
+
+function sv(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('view-'+name).classList.add('on');
+  const m={words:0,quiz:1,spell:2,saved:3,progress:4};
+  document.querySelectorAll('.tab')[m[name]].classList.add('on');
+  if(name==='saved')rFavs();
+  if(name==='progress')rProgress();
+  if(name==='quiz')rQuiz();
+  if(name==='spell')rSpell();
+}
+
+function shuf(a){let b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+function startQuiz(){
+  if(qPlays>=MAX_P){rQuiz();return;}
+  qPlays++;save();updateUI();
+  const order=shuf([...Array(WORDS.length).keys()]).slice(0,5);
+  qState={rounds:order.map(i=>{const q=WORDS[i];const oth=shuf(WORDS.filter((_,x)=>x!==i)).slice(0,3);return{q,choices:shuf([q,...oth]),answered:false,correct:null,selIdx:null};}),cur:0,score:0,done:false};
+  rQuiz();
+}
+function answerQuiz(idx){
+  if(!qState||qState.done)return;
+  const rd=qState.rounds[qState.cur];
+  if(rd.answered)return;
+  rd.answered=true;rd.selIdx=idx;
+  rd.correct=rd.choices[idx].word===rd.q.word;
+  if(rd.correct)qState.score++;
+  rQuiz();
+  setTimeout(()=>{qState.cur++;if(qState.cur>=qState.rounds.length){qState.done=true;if(qState.score>bestQ){bestQ=qState.score;save();}updateUI();}rQuiz();},2400);
+}
+function rQuiz(){
+  const gb=document.getElementById('qbody'),meta=document.getElementById('qmeta'),rem=Math.max(0,MAX_P-qPlays);
+  if(!qState&&qPlays>=MAX_P){meta.textContent='';gb.innerHTML=`<div style="text-align:center;padding:1.5rem 0"><i class="ti ti-clock" aria-hidden="true" style="font-size:28px;color:var(--color-text-tertiary)"></i><div style="font-size:15px;font-weight:500;margin:.75rem 0 .4rem;color:var(--color-text-primary)">All ${MAX_P} rounds used today</div><p style="font-size:13px;color:var(--color-text-secondary)">Come back tomorrow for a fresh set of career words.</p><button class="pbtn" disabled style="margin-top:1rem">Back tomorrow</button></div>`;return;}
+  if(!qState){meta.textContent='';gb.innerHTML=`<div style="text-align:center;padding:1.5rem 0"><div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:1.25rem">Match each definition to the right career word. After each answer you'll see 2 seconds of explanation — read it.</div><button class="pbtn" onclick="startQuiz()"><i class="ti ti-player-play" aria-hidden="true"></i> Start quiz</button><p class="rinfo">${rem} of ${MAX_P} rounds remaining today</p></div>`;return;}
+  if(qState.done){const r2=Math.max(0,MAX_P-qPlays);const pct=Math.round(qState.score/qState.rounds.length*100);const msg=pct===100?'Perfect — you nailed it!':pct>=80?'Strong work!':pct>=60?'Nice effort!':'Keep building!';meta.textContent=`Best: ${bestQ}/5`;gb.innerHTML=`<div class="go-box"><div class="go-score">${qState.score}/${qState.rounds.length}</div><div class="go-sub">${msg}</div><div class="pips">${qState.rounds.map(r=>`<div class="pip${r.correct?' w':' l'}"></div>`).join('')}</div><button class="rbtn" onclick="startQuiz()" ${r2<=0?'disabled':''}>${r2>0?'Play again':'No plays left'}</button><p class="comeback">${r2>0?r2+' play'+(r2>1?'s':'')+' left today':'Come back tomorrow!'}</p></div>`;return;}
+  const rd=qState.rounds[qState.cur];
+  meta.textContent=`${qState.cur+1}/5 · score ${qState.score}`;
+  let fb='';
+  if(rd.answered){fb=rd.correct?`<span style="color:#3B6D11;font-weight:500">Correct!</span> <strong>${rd.q.word}</strong> — ${rd.q.def}`:`<span style="color:#791F1F;font-weight:500">Not quite.</span> The answer was <strong>${rd.q.word}</strong> — ${rd.q.def}`;}
+  gb.innerHTML=`
+    <div class="qdef">${rd.q.def}</div>
+    <div class="qhint">${rd.answered?'':'Which career word fits this definition?'}</div>
+    <div class="choices">${rd.choices.map((c,i)=>{let cl='cbtn';if(rd.answered){if(c.word===rd.q.word)cl+=' correct';else if(i===rd.selIdx&&!rd.correct)cl+=' wrong';}return`<button class="${cl}" onclick="answerQuiz(${i})" ${rd.answered?'disabled':''}>${c.word}</button>`;}).join('')}</div>
+    <div class="qfb">${fb}</div>
+    <div class="pips">${qState.rounds.map((r,i)=>`<div class="pip${i<qState.cur?(r.correct?' w':' l'):''}"></div>`).join('')}</div>
+  `;
+}
+
+function buildPool(){
+  const src=WORDS.map(w=>w.word.toLowerCase()).join('');
+  const freq={};for(const c of src){if(/[a-z]/.test(c))freq[c]=(freq[c]||0)+1;}
+  let sorted=Object.entries(freq).sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
+  const vowels=['a','e','i','o','u'];const hasVowel=sorted.some(c=>vowels.includes(c));
+  if(!hasVowel)sorted=['a','e',...sorted];
+  return sorted.slice(0,14);
+}
+
+function startSpell(){
+  if(sPlays>=MAX_P){rSpell();return;}
+  sPlays++;save();updateUI();
+  const pool=buildPool();
+  sState={pool,input:'',found:[],fb:'',fbcls:'',timeLeft:SP_TIME,running:true,score:0};
+  if(sti)clearInterval(sti);
+  sti=setInterval(()=>{
+    if(!sState||!sState.running)return;
+    sState.timeLeft--;
+    if(sState.timeLeft<=0){sState.timeLeft=0;sState.running=false;clearInterval(sti);rSpell();return;}
+    const t=document.getElementById('sptimer');
+    if(t){t.textContent=sState.timeLeft+'s';t.className='sp-timer'+(sState.timeLeft<=15?' low':'');}
+  },1000);
+  rSpell();
+  setTimeout(()=>{const inp=document.getElementById('spinput');if(inp)inp.focus();},100);
+}
+
+function spSubmit(){
+  if(!sState||!sState.running)return;
+  const word=sState.input.trim().toLowerCase();
+  sState.input='';
+  const inp=document.getElementById('spinput');if(inp)inp.value='';
+  if(!word){return;}
+  if(word.length<2){sState.fb='Need at least 2 letters';sState.fbcls='err';rSpellBoard();return;}
+  if(sState.found.includes(word)){sState.fb='"'+word+'" already found!';sState.fbcls='dup';rSpellBoard();setTimeout(()=>{if(sState){sState.fb='';rSpellBoard();}},1000);return;}
+  const pts=word.length===2?1:word.length===3?1:word.length<=5?2:word.length<=7?3:4;
+  sState.found.push(word);
+  sState.score+=pts;
+  sState.fb='+'+pts+' pt'+(pts>1?'s':'')+' — "'+word+'" ✓';
+  sState.fbcls='ok';
+  rSpellBoard();
+  setTimeout(()=>{if(sState){sState.fb='';rSpellBoard();}},1000);
+}
+
+function rSpellBoard(){
+  const sb=document.getElementById('sbody');if(!sb)return;
+  if(!sState.running&&sState.timeLeft<=0){
+    const r2=Math.max(0,MAX_P-sPlays);
+    const msg=sState.score>=20?'Outstanding!':sState.score>=12?'Great run!':sState.score>=6?'Nice work!':'Keep practising!';
+    const foundHTML=sState.found.length?`<div class="found-area"><div class="found-lbl">${sState.found.length} words found</div><div class="found-chips">${sState.found.map(w=>`<span class="fchip">${w}</span>`).join('')}</div></div>`:'';
+    sb.innerHTML=`<div class="go-box"><div class="go-score">${sState.score} pts</div><div class="go-sub">${sState.found.length} word${sState.found.length!==1?'s':''} — ${msg}</div>${foundHTML}<div style="margin-top:1rem"><button class="rbtn" onclick="startSpell()" ${r2<=0?'disabled':''}>${r2>0?'Play again':'No plays left'}</button><p class="comeback">${r2>0?r2+' play'+(r2>1?'s':'')+' left today':'Come back tomorrow!'}</p></div></div>`;
+    return;
+  }
+  const foundHTML=sState.found.length?`<div class="found-area"><div class="found-lbl">Found ${sState.found.length} — ${sState.score} pts</div><div class="found-chips">${sState.found.map(w=>`<span class="fchip">${w}</span>`).join('')}</div></div>`:'';
+  sb.innerHTML=`
+    <div class="sp-timer${sState.timeLeft<=15?' low':''}" id="sptimer">${sState.timeLeft}s</div>
+    <div class="sp-scoreline">Score: ${sState.score} pts · ${sState.found.length} word${sState.found.length!==1?'s':''} found</div>
+    <div class="sp-tiles">${sState.pool.map((l,i)=>`<div class="tile" onclick="tileClick('${l}')">${l.toUpperCase()}</div>`).join('')}</div>
+    <div class="sp-scoring">
+      <span class="sp-score-pill">2 letters = 1 pt</span>
+      <span class="sp-score-pill">3–5 letters = 2 pts</span>
+      <span class="sp-score-pill">6–7 letters = 3 pts</span>
+      <span class="sp-score-pill">8+ letters = 4 pts</span>
+    </div>
+    <div class="sp-input-row">
+      <input id="spinput" type="text" placeholder="Type any word and press Enter..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+        oninput="sState.input=this.value"
+        onkeydown="if(event.key==='Enter'){spSubmit();}" />
+      <button class="spbtn go" onclick="spSubmit()">Submit</button>
+    </div>
+    <div class="spfb ${sState.fbcls}">${sState.fb}</div>
+    ${foundHTML}
+  `;
+  const inp=document.getElementById('spinput');
+  if(inp&&sState.input!==undefined)inp.value=sState.input;
+}
+
+function tileClick(l){
+  const inp=document.getElementById('spinput');
+  if(inp){inp.value=(inp.value||'')+l;sState.input=inp.value;inp.focus();}
+}
+
+function rSpell(){
+  const sb=document.getElementById('sbody'),meta=document.getElementById('smeta'),rem=Math.max(0,MAX_P-sPlays);
+  if(!sState&&sPlays>=MAX_P){meta.textContent='';sb.innerHTML=`<div style="text-align:center;padding:1.5rem 0"><i class="ti ti-clock" aria-hidden="true" style="font-size:28px;color:var(--color-text-tertiary)"></i><div style="font-size:15px;font-weight:500;margin:.75rem 0 .4rem;color:var(--color-text-primary)">All ${MAX_P} rounds used today</div><p style="font-size:13px;color:var(--color-text-secondary)">Come back tomorrow for a new letter set!</p><button class="pbtn" disabled style="margin-top:1rem">Back tomorrow</button></div>`;return;}
+  if(!sState){
+    const pool=buildPool();
+    meta.textContent='';
+    sb.innerHTML=`<div style="text-align:center;padding:1.5rem 0">
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:1rem">Letters are drawn from today's career words. Type <strong>any real English word</strong> — tap tiles or just type freely. ${SP_TIME} seconds. Score points for every valid word.</div>
+      <div class="sp-tiles" style="margin-bottom:1.25rem">${pool.map(l=>`<div class="tile">${l.toUpperCase()}</div>`).join('')}</div>
+      <div class="sp-scoring" style="margin-bottom:1.25rem">
+        <span class="sp-score-pill">2 letters = 1 pt</span>
+        <span class="sp-score-pill">3–5 = 2 pts</span>
+        <span class="sp-score-pill">6–7 = 3 pts</span>
+        <span class="sp-score-pill">8+ = 4 pts</span>
+      </div>
+      <button class="pbtn" onclick="startSpell()"><i class="ti ti-player-play" aria-hidden="true"></i> Start rush</button>
+      <p class="rinfo">${rem} of ${MAX_P} rounds remaining today</p>
+    </div>`;
+    return;
+  }
+  if(sState.running||sState.timeLeft<=0){rSpellBoard();return;}
+}
+
+function rFavs(){
+  const keys=Object.keys(favs),el=document.getElementById('fav-list');
+  if(!keys.length){el.innerHTML='<p class="empty">Tap the heart on any word to save it here.</p>';return;}
+  el.innerHTML=keys.map(k=>`<div class="fav-item"><div><div class="fword">${k}</div><div class="fdef">${(favs[k].def||'').slice(0,70)}…</div></div><button class="rmbtn" onclick="rmFav('${k}')" aria-label="Remove">×</button></div>`).join('');
+}
+function rmFav(w){delete favs[w];save();updateUI();rFavs();}
+
+function rProgress(){
+  const keys=Object.keys(learned),el=document.getElementById('learned-list');
+  if(!keys.length){el.innerHTML='<p class="empty">Mark words as "Got it" while reading — they\'ll build up here.</p>';return;}
+  el.innerHTML=`<div class="lgrid">${keys.map(k=>`<div class="lchip"><div class="lchip-word">${k}</div><div class="lchip-def">${(learned[k].def||'').slice(0,50)}…</div></div>`).join('')}</div>`;
+}
+
+load();rDots();rCard();updateUI();
+</script>
